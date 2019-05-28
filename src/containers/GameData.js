@@ -1,6 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
+function test(i, j){
+    console.log(i)
+    console.log(j)
+}
+
 function GameData({data}) {
     if (!data) {
         return (
@@ -9,31 +14,30 @@ function GameData({data}) {
             </div>
         )
     }
-    return (
-        <div>
-            <div>
-                {data
-                    ? data.map((item, i) => {
-                        return <div key={i}>
-                            Game Id: {item.id}
-                            <hr/>
-                            Player One: {item.playerOneName}
-                            <hr/>
-                            Player Two: {item.playerTwoName}
-                            <hr/>
-                            Players Turn: {item.playersTurn}
-                            <hr/>
-                            Game State: {item.state}
-                            <hr/>
-                            Message: {item.message}
-                            <hr/>
-                            Board: {item.board}
-                        </div>;
+    return <div>
+        {data
+            ? data.map((game) => {
+                return <div>
+                    {game.playerOneName}(X) vs. {game.playerTwoName}(O)
+                    <hr/>
+                    Player {game.playersTurn}'s Turn
+                    <hr/>
+                    {game.board.map((row, i) => {
+                        return <div class="row">
+                            {
+                                row.map((cell, j) => {
+                                    return <div onClick={test(i + 1, j + 1)}>
+                                        {cell}
+                                    </div>
+                                })
+                            }
+                        </div>
                     })
-                    : null}
-            </div>
-        </div>
-    )
+                    }
+                </div>;
+            })
+            : null}
+    </div>
 }
 
 const mapStateToProps = state => {
