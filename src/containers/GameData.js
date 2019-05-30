@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {takeTurn} from "../actions";
+import {store} from '../index'
 
-function test(i, j){
-    console.log(i)
-    console.log(j)
+function test(game, i, j) {
+    store.dispatch(takeTurn(game, i, j));
 }
 
 function GameData({data}) {
@@ -16,24 +17,29 @@ function GameData({data}) {
     }
     return <div>
         {data
-            ? data.map((game) => {
-                return <div>
+            ? data.map((game, m) => {
+                return <div key={m}>
                     {game.playerOneName}(X) vs. {game.playerTwoName}(O)
                     <hr/>
                     Player {game.playersTurn}'s Turn
                     <hr/>
-                    {game.board.map((row, i) => {
-                        return <div class="row">
-                            {
-                                row.map((cell, j) => {
-                                    return <div onClick={test(i + 1, j + 1)}>
-                                        {cell}
-                                    </div>
-                                })
-                            }
-                        </div>
-                    })
-                    }
+                    <table>
+                        <tbody>
+                        {game.board.map((row, i) => {
+                            return <tr key={'row' + i} className="row">
+                                {
+                                    row.map((cell, j) => {
+                                        return <td className="cell" key={'cell' + i + j}
+                                                   onClick={() => test(game.id, i + 1, j + 1)}>
+                                            {cell === 'BLANK' ? '-' : cell}
+                                        </td>
+                                    })
+                                }
+                            </tr>
+                        })
+                        }
+                        </tbody>
+                    </table>
                 </div>;
             })
             : null}

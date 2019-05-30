@@ -15,3 +15,8 @@ code {
 .row {
     display: flex
 }
+
+.cell {
+    width:100px;
+
+}

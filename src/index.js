@@ -10,7 +10,9 @@ import rootReducer from './reducers';
 import {getAllGames} from './actions/index';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 store.dispatch(getAllGames());
 
